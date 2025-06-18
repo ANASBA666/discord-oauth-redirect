@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discord Auth Redirect</title>
+    <script>
+        window.onload = function() {
+            // Extract token from URL hash
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            
+            // Send data back to opener window
+            if (window.opener) {
+                window.opener.postMessage({
+                    type: 'discord-oauth',
+                    token: params.get('access_token'),
+                    expires_in: params.get('expires_in')
+                }, '*');
+            }
+            
+            // Close this window
+            window.close();
+        };
+    </script>
+</head>
+<body>
+    <p>Authentication complete. You can close this window.</p>
+</body>
+</html>
